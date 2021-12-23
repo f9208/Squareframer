@@ -1,23 +1,33 @@
+package utils;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 
-public class ImageWrapper {
-    public Image wrapImage(Image source, int h) throws IOException {
+public class RectangularWrapper implements IFrameWrapper {
+    Color defaultColor = Color.WHITE;
+
+    public RectangularWrapper() {
+    }
+
+    public RectangularWrapper(Color defaultColor) {
+        this.defaultColor = defaultColor;
+    }
+
+    public Image wrapImage(Image source, int frame) {
         BufferedImage sourceImage = toBufferedImage(source);
-        BufferedImage result = new BufferedImage(sourceImage.getWidth() + h, sourceImage.getHeight() + h, sourceImage.getType());
+        BufferedImage result = new BufferedImage(sourceImage.getWidth() + frame, sourceImage.getHeight() + frame, sourceImage.getType());
         Graphics graphics = result.createGraphics();
-        graphics.setXORMode(Color.WHITE);
+        graphics.setXORMode(defaultColor);
         graphics.drawImage(result, 0, 0, null);
         graphics.dispose();
         for (int x = 0; x < sourceImage.getWidth(); x++) {
             for (int y = 0; y < sourceImage.getHeight(); y++) {
                 Color color = new Color(sourceImage.getRGB(x, y));
-                result.setRGB(x + h / 2, y + h / 2, color.getRGB());
+                result.setRGB(x + frame / 2, y + frame / 2, color.getRGB());
             }
         }
-        return result; 
+        return result;
     }
 
     private static BufferedImage toBufferedImage(Image img) {
