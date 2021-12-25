@@ -11,6 +11,8 @@ import java.util.List;
 public class FileManager {
     public List<File> openFiles() {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("jpg", "*.jpg", "*.jpeg", "*.bmp", "*.png"));
         return fileChooser.showOpenMultipleDialog(new Stage());
     }
 

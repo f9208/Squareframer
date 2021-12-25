@@ -4,14 +4,18 @@ import base.utils.IFrameWrapper;
 import base.utils.ImageFileHandler;
 import base.utils.RectangularWrapper;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ConverterBindFx {
     ImageFileHandler imageFileHandler = new ImageFileHandler();
@@ -19,18 +23,13 @@ public class ConverterBindFx {
     MainController controller;
 
     public ConverterBindFx(MainController controller) {
-        this.imageWrapper = new RectangularWrapper();
         this.controller = controller;
     }
 
-    public ConverterBindFx(MainController controller, IFrameWrapper imageWrapper) {
-        this.imageWrapper = imageWrapper;
-        this.controller = controller;
-    }
-
-
-    public void convert(List<File> listFiles, int sizeFrame) {
+    public void convert(List<File> listFiles, int sizeFrame, Color color) {
         List<String> invalidFiles = new ArrayList<>();
+        imageWrapper = new RectangularWrapper(color);
+        Path destFolder = Paths.get("framed_img");
         for (File file : listFiles
         ) {
             Platform.runLater(() -> controller.getStatus().setText("обрабатываю " + file.getName()));
@@ -41,14 +40,34 @@ public class ConverterBindFx {
                 invalidFiles.add(file.getName());
             }
             Image result = imageWrapper.wrapImage(source, sizeFrame);
-            Path dest = Paths.get("framed_img");
-            boolean successful = imageFileHandler.saveImage(result, dest, file.getName(), "jpg");
+            boolean successful = imageFileHandler.saveImage(result, destFolder, file.getName(), "jpg");
             System.out.println(successful ? "image have been saved" : "something get wrong");
         }
         if (!invalidFiles.isEmpty()) {
             Platform.runLater(() -> controller.getStatus().setText("некоторые из файлов не удалось открыть"));
         } else {
-            Platform.runLater(() -> controller.getStatus().setText("закончил"));
+            Platform.runLater(() -> notifyFinished(destFolder));
+        }
+    }
+
+    private void notifyFinished(Path folder) { //todo как то кривенько
+        controller.getStatus().setText("закончил");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Finished!");
+        alert.setHeaderText("Все картинки были обрамлены");
+        ButtonType openFolder = new ButtonType("Open folder");
+
+        alert.getButtonTypes().clear();
+
+        alert.getButtonTypes().addAll(openFolder, ButtonType.CLOSE);
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if (option.isPresent() && option.get() == openFolder) {
+            try {
+                Desktop.getDesktop().open(folder.toFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

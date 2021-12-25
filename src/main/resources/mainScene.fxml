@@ -3,21 +3,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="base.fx.MainController">
-   <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-              <Button onAction="#loadFiles" prefHeight="26.0" prefWidth="83.0" text="Open Files" />
-              <ColorPicker prefHeight="26.0" prefWidth="77.0" />
-            <TextArea fx:id="sizeArea" prefHeight="22.0" prefWidth="79.0" />
-         </children>
-      </HBox>
-      <Label fx:id="status"/>
-      <ListView fx:id="listPhotoNames" prefHeight="96.0" prefWidth="400.0" />
-      <HBox alignment="BOTTOM_RIGHT" prefHeight="96.0" prefWidth="400.0">
-         <children>
-              <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#startConvert" prefHeight="26.0" prefWidth="72.0" text="Convert" />
-         </children>
-      </HBox>
-   </children>
+<VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="base.fx.MainController">
+    <children>
+        <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <ColorPicker fx:id="colorChoice" onAction="#getColorValue" prefHeight="26.0" prefWidth="77.0"/>
+                <TextArea fx:id="sizeArea" prefHeight="22.0" prefWidth="79.0"/>
+                <Button prefHeight="26.0" prefWidth="83.0" text="Open" onAction="#getFiles"> </Button>
+            </children>
+        </HBox>
+        <Label fx:id="status" text="Выберите файл и укажите размер рамки"/>
+        <ListView fx:id="viewPhotoNames" prefHeight="96.0" prefWidth="400.0"/>
+        <HBox alignment="BOTTOM_RIGHT" prefHeight="96.0" prefWidth="400.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#resetFields" text="Clear"/>
+                <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#startConvert" prefHeight="26.0"
+                        prefWidth="72.0" text="Convert"/>
+            </children>
+        </HBox>
+    </children>
 </VBox>

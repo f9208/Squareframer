@@ -1,4 +1,4 @@
-package base.starter;
+package base.console;
 
 import base.utils.IFrameWrapper;
 import base.utils.ImageFileHandler;
@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class Start {
+public class StartConsoleView {
     static ImageFileHandler fileHandler = new ImageFileHandler();
     static IFrameWrapper imageWrapper = new RectangularWrapper();
 
