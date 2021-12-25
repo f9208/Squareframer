@@ -1,13 +1,18 @@
-package utils;
+package base.utils;
+
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class ImageFileHandler {
     public Image openImage(Path path) {
@@ -18,6 +23,11 @@ public class ImageFileHandler {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public Image openImageFile(File file) throws FileNotFoundException {
+        if (file == null) throw new FileNotFoundException();
+        return openImage(Path.of(file.getPath()));
     }
 
     public boolean saveImage(Image image, Path destinationFolder, String fileName, String formatName) {

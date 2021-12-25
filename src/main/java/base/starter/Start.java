@@ -1,8 +1,8 @@
-package start;
+package base.starter;
 
-import utils.IFrameWrapper;
-import utils.ImageFileHandler;
-import utils.RectangularWrapper;
+import base.utils.IFrameWrapper;
+import base.utils.ImageFileHandler;
+import base.utils.RectangularWrapper;
 
 import java.awt.*;
 import java.nio.file.Path;
