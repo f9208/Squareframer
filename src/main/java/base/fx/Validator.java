@@ -8,9 +8,9 @@ import java.util.List;
 public class Validator {
     private final static int MAX_FRAME_SIZE = 10000;
     private static final String TOO_BIG = "∆елаемые пол€ слишком большие! ¬ведите число до 10000";
-    private static final String NOT_POSITIVE="¬ведите положительное целое число!";
+    private static final String NOT_POSITIVE = "¬ведите положительное целое число!";
 
-    public static boolean sizeFrame(Label label, int sizeFrame) {
+    public static boolean sizeFrame(Label label, double sizeFrame) {
         if (sizeFrame <= 0) {
             label.setText(NOT_POSITIVE);
             return false;

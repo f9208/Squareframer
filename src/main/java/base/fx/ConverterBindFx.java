@@ -1,8 +1,8 @@
 package base.fx;
 
-import base.utils.IFrameWrapper;
+import base.utils.wrapers.IFrameWrapper;
 import base.utils.ImageFileHandler;
-import base.utils.RectangularWrapper;
+import base.utils.wrapers.RectangularWrapper;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -19,16 +19,15 @@ import java.util.Optional;
 
 public class ConverterBindFx {
     ImageFileHandler imageFileHandler = new ImageFileHandler();
-    IFrameWrapper imageWrapper;
+
     MainController controller;
 
     public ConverterBindFx(MainController controller) {
         this.controller = controller;
     }
 
-    public void convert(List<File> listFiles, int sizeFrame, Color color) {
+    public void convert(List<File> listFiles, double oX, double oY, IFrameWrapper imageWrapper) {
         List<String> invalidFiles = new ArrayList<>();
-        imageWrapper = new RectangularWrapper(color);
         Path destFolder = Paths.get("framed_img");
         for (File file : listFiles
         ) {
@@ -39,7 +38,7 @@ public class ConverterBindFx {
             } catch (FileNotFoundException fileNotFoundException) {
                 invalidFiles.add(file.getName());
             }
-            Image result = imageWrapper.wrapImage(source, sizeFrame);
+            Image result = imageWrapper.wrapImage(source, oX, oY);
             boolean successful = imageFileHandler.saveImage(result, destFolder, file.getName(), "jpg");
             System.out.println(successful ? "image have been saved" : "something get wrong");
         }
