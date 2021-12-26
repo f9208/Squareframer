@@ -61,7 +61,7 @@ public class ConverterBindFx {
 
         alert.getButtonTypes().addAll(openFolder, ButtonType.CLOSE);
         Optional<ButtonType> option = alert.showAndWait();
-
+        controller.getConvertButton().setDisable(false);
         if (option.isPresent() && option.get() == openFolder) {
             try {
                 Desktop.getDesktop().open(folder.toFile());

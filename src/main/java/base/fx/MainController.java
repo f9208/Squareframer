@@ -1,11 +1,9 @@
 package base.fx;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import lombok.Getter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,10 +17,12 @@ public class MainController {
     @FXML
     private Label status;
     @FXML
-    private TextArea sizeArea;
+    private TextField sizeField;
     @FXML
-    private ListView<String> viewPhotoNames;
-
+    private ListView<String> listViewPhotoNames;
+    @FXML
+    @Getter
+    private Button convertButton;
     private List<File> listFiles;
     FileManager manager = new FileManager();
     ConverterBindFx converter = new ConverterBindFx(this);
@@ -30,22 +30,25 @@ public class MainController {
     public List<File> getFiles() {
         listFiles = manager.openFiles();
         if (listFiles != null) {
-            viewPhotoNames.setItems(manager.prepareObservableList(listFiles));
-            cleanLabel(status);
+            listViewPhotoNames.setItems(manager.prepareObservableList(listFiles));
         }
+        if (sizeField.getText().isEmpty()) {
+            status.setText("Выберите размер поля");
+        }
+        //todo как то не очень по отношению к смене статуса
         return listFiles;
     }
 
     public void startConvert() {
-        int frameSize = readSize(sizeArea);
+        int frameSize = readSize(sizeField);
         if (!Validator.checkListFile(status, listFiles) || !Validator.sizeFrame(status, frameSize)) return;
         status.setText(EVERYTHING_IS_VALID);
         Thread convertThread = new Thread(() -> converter.convert(listFiles, frameSize, readColor(getColorValue())));
         convertThread.start();
-
+        convertButton.setDisable(true);
     }
 
-    private int readSize(TextArea textField) {
+    private int readSize(TextField textField) {
         String read = textField.getText().trim();
         int result;
         try {
@@ -58,14 +61,10 @@ public class MainController {
 
     public void resetFields() {
         status.setText(DEFAULT);
-        sizeArea.setText("");
+        sizeField.setText("");
         listFiles = new ArrayList<>();
-        viewPhotoNames.getItems().clear();
+        listViewPhotoNames.getItems().clear();
         colorChoice.setValue(Color.WHITE);
-    }
-
-    private void cleanLabel(Label label) {
-        label.setText("");
     }
 
     public Label getStatus() {

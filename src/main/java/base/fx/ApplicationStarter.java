@@ -23,8 +23,9 @@ public class ApplicationStarter extends Application {
         Parent root = loader.load();
 
         primaryStage.setScene(new Scene(root));
-        primaryStage.setHeight(300);
-        primaryStage.setWidth(400);
+        primaryStage.setHeight(320);
+        primaryStage.setWidth(700);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }

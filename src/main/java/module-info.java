@@ -4,6 +4,7 @@ module base {
     requires java.base;
     requires java.desktop;
     requires javafx.fxml;
+    requires lombok;
 
     exports base.utils;
     opens base.fx;

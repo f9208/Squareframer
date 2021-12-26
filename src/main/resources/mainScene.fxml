@@ -3,24 +3,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="base.fx.MainController">
-    <children>
-        <HBox prefHeight="100.0" prefWidth="200.0">
-            <children>
-                <ColorPicker fx:id="colorChoice" onAction="#getColorValue" prefHeight="26.0" prefWidth="77.0"/>
-                <TextArea fx:id="sizeArea" prefHeight="22.0" prefWidth="79.0"/>
-                <Button prefHeight="26.0" prefWidth="83.0" text="Open" onAction="#getFiles"> </Button>
-            </children>
-        </HBox>
-        <Label fx:id="status" text="Выберите файл и укажите размер рамки"/>
-        <ListView fx:id="viewPhotoNames" prefHeight="96.0" prefWidth="400.0"/>
-        <HBox alignment="BOTTOM_RIGHT" prefHeight="96.0" prefWidth="400.0">
-            <children>
-                <Button mnemonicParsing="false" onAction="#resetFields" text="Clear"/>
-                <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#startConvert" prefHeight="26.0"
-                        prefWidth="72.0" text="Convert"/>
-            </children>
-        </HBox>
-    </children>
-</VBox>
+<AnchorPane minHeight="320.0" minWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="base.fx.MainController">
+   <children>
+        <ListView fx:id="listViewPhotoNames" layoutX="37.0" layoutY="52.0" prefHeight="210.0" prefWidth="446.0" AnchorPane.bottomAnchor="60.0" AnchorPane.topAnchor="50.0" />
+          <ColorPicker fx:id="colorChoice" layoutX="487.0" layoutY="84.0" onAction="#getColorValue" prefHeight="26.0" prefWidth="113.0" AnchorPane.rightAnchor="19.0" />
+          <Button layoutX="486.0" layoutY="46.0" onAction="#getFiles" prefHeight="26.0" prefWidth="114.0" text="Open" AnchorPane.rightAnchor="20.0"> </Button>
+          <Button layoutX="486.0" layoutY="176.0" mnemonicParsing="false" onAction="#resetFields" prefHeight="26.0" prefWidth="114.0" text="Clear" AnchorPane.rightAnchor="20.0" />
+        <Label fx:id="status" layoutX="37.0" layoutY="267.0" text="Выберите файлы и укажите размер рамки" AnchorPane.bottomAnchor="15.399999999999977" />
+          <Button fx:id="convertButton" contentDisplay="CENTER" layoutX="487.0" layoutY="267.0" mnemonicParsing="false" onAction="#startConvert" prefHeight="26.0" prefWidth="114.0" text="Convert" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+      <TextField fx:id="sizeField" layoutX="547.0" layoutY="127.0" prefHeight="26.0" prefWidth="55.0" AnchorPane.rightAnchor="20.0" />
+      <Label layoutX="440.0" layoutY="131.0" text="Размер поля:" AnchorPane.rightAnchor="87.20000000000005" />
+      <Label layoutX="37.0" layoutY="27.0" prefHeight="18.0" prefWidth="94.0" text="Список файлов:" AnchorPane.topAnchor="27.0" />
+   </children>
+</AnchorPane>

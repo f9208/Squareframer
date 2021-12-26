@@ -19,7 +19,7 @@
             <artifactId>ij</artifactId>
             <version>1.53d</version>
         </dependency>
-<!--        javaFX-->
+        <!--        javaFX-->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -30,7 +30,13 @@
             <artifactId>javafx-fxml</artifactId>
             <version>18-ea+8</version>
         </dependency>
-
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
