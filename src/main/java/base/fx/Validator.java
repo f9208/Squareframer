@@ -1,32 +1,42 @@
 package base.fx;
 
-import javafx.scene.control.Label;
-
 import java.io.File;
 import java.util.List;
 
-public class Validator {
-    private final static int MAX_FRAME_SIZE = 10000;
-    private static final String TOO_BIG = "∆елаемые пол€ слишком большие! ¬ведите число до 10000";
-    private static final String NOT_POSITIVE = "¬ведите положительное целое число!";
+import static base.fx.Status.*;
 
-    public static boolean sizeFrame(Label label, double sizeFrame) {
-        if (sizeFrame <= 0) {
-            label.setText(NOT_POSITIVE);
-            return false;
-        }
-        if (sizeFrame > MAX_FRAME_SIZE) {
-            label.setText(TOO_BIG);
-            return false;
-        }
-        return true;
+public class Validator {
+    private static final int MAX_FRAME_SIZE = 10000;
+
+    private Validator() {
     }
 
-    public static boolean checkListFile(Label status, List<File> listFiles) {
-        if (listFiles == null || listFiles.isEmpty()) {
-            status.setText("вначале выберете файл!");
-            return false;
+    public static String checkSizeFrame(String sizeFrame) {
+        if (sizeFrame.trim().isEmpty()) return PUT_FRAME_SIZE;
+        double doubleSize;
+        try {
+            doubleSize = Double.parseDouble(sizeFrame);
+        } catch (NumberFormatException e) {
+            return NOT_A_NUMBER;
         }
-        return true;
+        if (doubleSize <= 0) {
+            return NOT_POSITIVE;
+        }
+        if (doubleSize > MAX_FRAME_SIZE) {
+            return TOO_BIG;
+        }
+        return null;
+    }
+
+    public static String checkSizeAndFiles(String sizeFrame, List<File> listFiles) {
+        StringBuilder result = new StringBuilder();
+        if (listFiles == null || listFiles.isEmpty()) {
+            result.append(CHOICE_FILES);
+        }
+        String message = checkSizeFrame(sizeFrame);
+        if (message != null) {
+            result.append("\n").append(message);
+        }
+        return result.toString();
     }
 }

@@ -10,84 +10,94 @@ import lombok.Getter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static base.fx.Status.*;
 
 public class MainController {
-    private static final String EVERYTHING_IS_VALID = "Все валидное, можно начинать";
-    private static final String DEFAULT = "Выберите файл и укажите размер рамки";
     @FXML
     private ColorPicker colorChoice;
     @FXML
     @Getter
-    private Label status;
+    private Label statusBar;
     @FXML
-    private TextField sizePX;
-    @FXML
-    private TextField sizePercent;
+    private TextField sizeFrame;
     @FXML
     private ListView<String> listViewPhotoNames;
     @FXML
     @Getter
     private Button convertButton;
+    @FXML
+    private ChoiceBox<String> typeFrame; //если сразу вставить enum - по дефолту чекбокса отображается как пустая
+
+    public void initialize() {
+        statusBar.setText(DEFAULT);
+    }
+
     private List<File> listFiles;
     FileManager manager = new FileManager();
     ConverterBindFx converter = new ConverterBindFx(this);
 
-    public List<File> getFiles() {
-        listFiles = manager.openFiles();
-        if (listFiles != null) {
+    public void getFiles() {
+        List<File> openedFiles = manager.openFiles();
+        if (openedFiles != null) {
+            listFiles = openedFiles;
             listViewPhotoNames.setItems(manager.prepareObservableList(listFiles));
         }
-        if (sizePX.getText().isEmpty() && sizePercent.getText().isEmpty()) {
-            status.setText("Выберите размер поля");
+
+        String message = Validator.checkSizeAndFiles(sizeFrame.getText(), listFiles);
+        if (!message.isEmpty()) {
+            statusBar.setText(message);
+        } else {
+            statusBar.setText(EVERYTHING_IS_VALID);
         }
-        //todo как то не очень красиво по отношению к смене статуса
-        return listFiles;
     }
 
     public void startConvert() {
-        if (!sizePX.getText().isEmpty() && sizePercent.getText().isEmpty()) {
-            double frameSize = readSize(sizePX);
-            if (!Validator.checkListFile(status, listFiles) || !Validator.sizeFrame(status, frameSize)) return;
-            status.setText(EVERYTHING_IS_VALID);
-            Thread convertThread = new Thread(() -> converter.convert(listFiles, frameSize, frameSize, new RectangularWrapper(readColor(getColorValue()))));
-            convertThread.start();
-            convertButton.setDisable(true);
+        String message = Validator.checkSizeAndFiles(sizeFrame.getText().trim(), listFiles);
+        if (!message.isEmpty()) {
+            statusBar.setText(message);
+            return;
         }
-        if (!sizePercent.getText().isEmpty() && sizePX.getText().isEmpty()) {
-            double frameSize = readSize(sizePercent);
-            if (!Validator.checkListFile(status, listFiles) || !Validator.sizeFrame(status, frameSize)) return;
-            status.setText(EVERYTHING_IS_VALID);
-            Thread convertThread = new Thread(() -> converter.convert(listFiles, frameSize, frameSize, new PercentWrapper(readColor(getColorValue()))));
-            convertThread.start();
-            convertButton.setDisable(true);
+        double frameSize = readSize(sizeFrame);
+        DifferenceType type = DifferenceType.readType(typeFrame.getValue());
+        Thread convertThread;
+        switch (Objects.requireNonNull(type)) {
+            case PIXEL: {
+                convertThread = new Thread(() -> converter.convert(listFiles, frameSize, frameSize, new RectangularWrapper(readColor(getColorValue()))));
+                convertThread.start();
+                break;
+            }
+            case PERCENT: {
+                convertThread = new Thread(() -> converter.convert(listFiles, frameSize, frameSize, new PercentWrapper(readColor(getColorValue()))));
+                convertThread.start();
+                break;
+            }
+            default:
+                return;
         }
+        convertButton.setDisable(true);
     }
 
+    //предполагается что значения приходят численно валидные
     private double readSize(TextField textField) {
         String read = textField.getText().trim();
-        double result;
-        try {
-            result = Double.parseDouble(read);
-        } catch (NumberFormatException e) {
-            result = -1;
-        }
-        return result;
+        return Double.parseDouble(read);
     }
 
-    public void resetFields() {
-        status.setText(DEFAULT);
-        sizePX.setText("");
-        sizePercent.setText("");
+    @FXML
+    private void resetFields() {
+        statusBar.setText(DEFAULT);
+        sizeFrame.setText("");
         listFiles = new ArrayList<>();
         listViewPhotoNames.getItems().clear();
-        colorChoice.setValue(Color.WHITE);
     }
 
     public Color getColorValue() {
         return colorChoice.getValue();
     }
 
-    public java.awt.Color readColor(Color sourceColor) {
+    private java.awt.Color readColor(Color sourceColor) {
         return new java.awt.Color((float) sourceColor.getRed(),
                 (float) sourceColor.getGreen(),
                 (float) sourceColor.getBlue(),

@@ -1,8 +1,7 @@
 package base.fx;
 
-import base.utils.wrapers.IFrameWrapper;
 import base.utils.ImageFileHandler;
-import base.utils.wrapers.RectangularWrapper;
+import base.utils.wrapers.IFrameWrapper;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -31,7 +30,7 @@ public class ConverterBindFx {
         Path destFolder = Paths.get("framed_img");
         for (File file : listFiles
         ) {
-            Platform.runLater(() -> controller.getStatus().setText("обрабатываю " + file.getName()));
+            Platform.runLater(() -> controller.getStatusBar().setText("обрабатываю " + file.getName()));
             Image source = null;
             try {
                 source = imageFileHandler.openImageFile(file);
@@ -43,14 +42,14 @@ public class ConverterBindFx {
             System.out.println(successful ? "image have been saved" : "something get wrong");
         }
         if (!invalidFiles.isEmpty()) {
-            Platform.runLater(() -> controller.getStatus().setText("некоторые из файлов не удалось открыть"));
+            Platform.runLater(() -> controller.getStatusBar().setText("некоторые из файлов не удалось открыть"));
         } else {
             Platform.runLater(() -> notifyFinished(destFolder));
         }
     }
 
     private void notifyFinished(Path folder) { //todo как то кривенько
-        controller.getStatus().setText("закончил");
+        controller.getStatusBar().setText("закончил");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Finished!");
         alert.setHeaderText("Все картинки были обрамлены");

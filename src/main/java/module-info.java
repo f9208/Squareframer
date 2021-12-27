@@ -1,4 +1,4 @@
-module base {
+module base.fx {
     requires javafx.graphics;
     requires javafx.controls;
     requires java.base;
@@ -6,6 +6,5 @@ module base {
     requires javafx.fxml;
     requires lombok;
 
-    exports base.utils;
     opens base.fx;
 }
