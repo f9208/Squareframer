@@ -25,7 +25,7 @@ public class ConverterBindFx {
         this.controller = controller;
     }
 
-    public void convert(List<File> listFiles, double oX, double oY, IFrameWrapper imageWrapper) {
+    public void convert(List<File> listFiles, IFrameWrapper imageWrapper, double oLeft, double oRight, double oTop, double oBottom) {
         List<String> invalidFiles = new ArrayList<>();
         Path destFolder = Paths.get("framed_img");
         for (File file : listFiles
@@ -37,7 +37,7 @@ public class ConverterBindFx {
             } catch (FileNotFoundException fileNotFoundException) {
                 invalidFiles.add(file.getName());
             }
-            Image result = imageWrapper.wrapImage(source, oX, oY);
+            Image result = imageWrapper.wrapImage(source, oLeft, oRight, oTop, oBottom);
             boolean successful = imageFileHandler.saveImage(result, destFolder, file.getName(), "jpg");
             System.out.println(successful ? "image have been saved" : "something get wrong");
         }

@@ -17,7 +17,7 @@ public class StartConsoleView {
         String fileName = "76.jpg";
         Path pathToFile = Paths.get(fileName);
         Image source = fileHandler.openImage(pathToFile);
-        Image result = imageWrapper.wrapImage(source, frameSize, frameSize);
+        Image result = imageWrapper.wrapImage(source, frameSize, frameSize, frameSize, frameSize);
         Path dest = Paths.get("framed_img");
         boolean successful = fileHandler.saveImage(result, dest, fileName, "jpg");
         System.out.println(successful ? "image have been saved" : "something get wrong");

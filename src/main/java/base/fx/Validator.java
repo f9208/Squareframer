@@ -39,4 +39,10 @@ public class Validator {
         }
         return result.toString();
     }
+
+    public static String checkDFields() {
+        System.out.println("валидирую поля");
+        return "";
+    }
+
 }

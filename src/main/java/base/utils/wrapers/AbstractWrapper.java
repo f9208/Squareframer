@@ -21,19 +21,19 @@ public abstract class AbstractWrapper implements IFrameWrapper {
         return bImage;
     }
 
-    protected Image wrapperSameFrame(BufferedImage sourceImage, BufferedImage result, int frameX, int frameY) {
+    protected Image madeCustomFrame(BufferedImage sourceImage, BufferedImage result, int left, int top) {
         for (int x = 0; x < sourceImage.getWidth(); x++) {
             for (int y = 0; y < sourceImage.getHeight(); y++) {
                 Color color = new Color(sourceImage.getRGB(x, y));
-                result.setRGB(x + frameX, y + frameY, color.getRGB());
+                result.setRGB(x + left, y + top, color.getRGB());
             }
         }
         return result;
     }
 
     protected BufferedImage increaseImage(BufferedImage sourceImage, int frameX, int frameY) {
-        BufferedImage result = new BufferedImage(sourceImage.getWidth() + 2 * frameX,
-                sourceImage.getHeight() + 2 * frameY,
+        BufferedImage result = new BufferedImage(sourceImage.getWidth() + frameX,
+                sourceImage.getHeight() + frameY,
                 sourceImage.getType());
         Graphics graphics = result.createGraphics();
         graphics.setXORMode(defaultColor);

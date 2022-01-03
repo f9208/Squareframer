@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import base.fx.*?>
 <?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<?import base.fx.DifferenceType?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <AnchorPane minHeight="320.0" minWidth="700.0" xmlns="http://javafx.com/javafx/11.0.2"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="base.fx.MainController">
     <children>
-        <ListView fx:id="listViewPhotoNames" layoutX="37.0" layoutY="52.0" prefHeight="210.0" prefWidth="446.0"
+        <ListView fx:id="listViewPhotoNames" layoutX="37.0" layoutY="52.0" prefHeight="210.0" prefWidth="234.0"
                   AnchorPane.bottomAnchor="60.0" AnchorPane.topAnchor="50.0"/>
         <ColorPicker fx:id="colorChoice" layoutX="487.0" layoutY="84.0" onAction="#getColorValue" prefHeight="26.0"
                      prefWidth="113.0" AnchorPane.rightAnchor="19.0"/>
@@ -24,14 +23,30 @@
                 AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0"/>
         <Label layoutX="37.0" layoutY="27.0" prefHeight="18.0" prefWidth="94.0" text="Список файлов:"
                AnchorPane.topAnchor="27.0"/>
-        <TextField fx:id="sizeFrame" layoutX="624.0" layoutY="160.0" prefHeight="26.0" prefWidth="55.0"/>
-        <ChoiceBox layoutX="533.0" layoutY="14.0" prefWidth="100.0" value="pixel" fx:id="typeFrame">
+        <TextField fx:id="sizeFrame" layoutX="560.0" layoutY="159.0" prefHeight="26.0" prefWidth="49.0"/>
+        <ChoiceBox fx:id="measure" layoutX="618.0" layoutY="159.0" prefHeight="26.0" prefWidth="68.0">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="pixel"/>
-                    <String fx:value="percent"/>
+                    <MeasureType fx:value="PIXEL"/>
+                    <MeasureType fx:value="PERCENT"/>
                 </FXCollections>
             </items>
         </ChoiceBox>
+        <ChoiceBox fx:id="mode" layoutX="350.0" layoutY="47.0" onAction="#modeControl" prefWidth="150.0"
+                   value="одинаковые поля">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <ModeType fx:id="mode_equals" fx:value="EQUALS"/>
+                    <ModeType fx:id="mode_different" fx:value="DIFFERENT"/>
+                    <ModeType fx:id="mode_polaroid" fx:value="POLAROID"/>
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+        <ImageView fx:id="dImage" fitHeight="85.0" fitWidth="101.0" layoutX="375.0" layoutY="130.0" pickOnBounds="true"
+                   preserveRatio="true"/>
+        <TextField fx:id="dLeft" layoutX="332.0" layoutY="159.0" prefHeight="26.0" prefWidth="35.0" visible="false"/>
+        <TextField fx:id="dTop" layoutX="408.0" layoutY="97.0" prefHeight="18.0" prefWidth="35.0" visible="false"/>
+        <TextField fx:id="dBottom" layoutX="407.0" layoutY="222.0" prefHeight="26.0" prefWidth="35.0" visible="false"/>
+        <TextField fx:id="dRight" layoutX="482.0" layoutY="159.0" prefHeight="26.0" prefWidth="35.0" visible="false"/>
     </children>
 </AnchorPane>

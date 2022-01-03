@@ -12,10 +12,10 @@ public class RectangularWrapper extends AbstractWrapper {
     }
 
     @Override
-    public Image wrapImage(Image source, double frameX, double frameY) {
+    public Image wrapImage(Image source, double frameLeft, double frameRight, double frameTop, double frameBottom) {
         BufferedImage sourceImage = toBufferedImage(source);
-        BufferedImage result = increaseImage(sourceImage, (int) frameX, (int) frameY);
-        wrapperSameFrame(sourceImage, result, (int) frameX, (int) frameY);
+        BufferedImage result = increaseImage(sourceImage, (int) (frameLeft + frameRight), (int) (frameTop + frameBottom));
+        madeCustomFrame(sourceImage, result, (int) frameLeft, (int) frameTop);
         return result;
     }
 }
